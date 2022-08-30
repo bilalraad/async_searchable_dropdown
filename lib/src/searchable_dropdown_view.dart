@@ -84,6 +84,7 @@ class _SearchableDropdownState<T extends Object>
   @override
   void initState() {
     controller = SearchableDropdownController<T>();
+    controller.selectedItem.value = widget.value;
     super.initState();
   }
 
@@ -196,7 +197,10 @@ class _SearchableDropdownState<T extends Object>
                   // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
                   textEditingController.notifyListeners();
                 },
-                child: const Icon(Icons.refresh),
+                child: Icon(
+                  Icons.refresh,
+                  color: widget.dropDownIconColor,
+                ),
               );
             } else {
               return child!;
@@ -208,6 +212,8 @@ class _SearchableDropdownState<T extends Object>
   }
 
   Future<List<T>> optionsBuilder(TextEditingValue search) async {
+    if (controller.searchText.value == search.text) return [];
+    controller.searchText.value = search.text;
     await _searchTimeDeBouncer.run();
     controller.isLoading.value = true;
     controller.isError.value = false;
