@@ -50,23 +50,23 @@ class SearchableDropdown<T extends Object> extends StatefulWidget {
   String Function(T value)? itemLabelFormatter;
 
   ///Future service which is returns DropdownMenuItem list
-  Future<List<T>?> Function(String? search)? remoteItems;
+  Future<List<T>?> Function(String? search) remoteItems;
 
   SearchableDropdown({
     Key? key,
+    required this.remoteItems,
+    this.onChanged,
+    this.labelText,
     this.hintText,
     this.backgroundDecoration,
-    this.labelText,
     this.margin,
     this.dropDownIcon,
     this.dropDownIconSize = 20,
     this.dropDownIconColor,
     this.leadingIcon,
-    this.onChanged,
     this.itemLabelFormatter,
     this.value,
     this.isEnabled = true,
-    this.remoteItems,
     this.border,
     this.borderRadius,
     this.labelTextStyle,
@@ -169,7 +169,12 @@ class _SearchableDropdownState<T extends Object>
         optionsBuilder: optionsBuilder,
         displayStringForOption:
             widget.itemLabelFormatter ?? RawAutocomplete.defaultStringForOption,
-        onSelected: widget.onChanged,
+        onSelected: (value) {
+          if (controller.selectedItem.value == value) return;
+
+          controller.selectedItem.value = value;
+          widget.onChanged?.call(value);
+        },
       ),
     );
   }
@@ -213,12 +218,13 @@ class _SearchableDropdownState<T extends Object>
 
   Future<List<T>> optionsBuilder(TextEditingValue search) async {
     if (controller.searchText.value == search.text) return [];
+
     controller.searchText.value = search.text;
     await _searchTimeDeBouncer.run();
     controller.isLoading.value = true;
     controller.isError.value = false;
     try {
-      final options = await widget.remoteItems?.call(search.text);
+      final options = await widget.remoteItems.call(search.text);
       controller.isLoading.value = false;
       return options ?? [];
     } catch (e) {
