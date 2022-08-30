@@ -51,6 +51,8 @@ class SearchableDropdown<T extends Object> extends StatefulWidget {
   /// It is also required for performance reasons
   String Function(T value) itemLabelFormatter;
 
+  final TextInputType? keyboardType;
+
   ///Future service which is returns DropdownMenuItem list
   Future<List<T>?> Function(String? search) remoteItems;
 
@@ -72,6 +74,7 @@ class SearchableDropdown<T extends Object> extends StatefulWidget {
     this.border,
     this.borderRadius,
     this.labelTextStyle,
+    this.keyboardType,
   }) : super(key: key);
 
   @override
@@ -143,6 +146,7 @@ class _SearchableDropdownState<T extends Object>
             controller: textEditingController,
             focusNode: focusNode,
             enabled: widget.isEnabled,
+            keyboardType: widget.keyboardType,
             onEditingComplete: onFieldSubmitted,
             onTap: () {
               // To fix Cursor position goes to one before the last
