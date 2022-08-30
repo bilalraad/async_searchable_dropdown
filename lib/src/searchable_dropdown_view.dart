@@ -46,8 +46,10 @@ class SearchableDropdown<T extends Object> extends StatefulWidget {
   //Is dropdown enabled
   bool isEnabled;
 
-  ///Dropdown items
-  String Function(T value)? itemLabelFormatter;
+  /// This is responsible for formatting your objects of type T
+  /// to a string representation of itself
+  /// It is also required for performance reasons
+  String Function(T value) itemLabelFormatter;
 
   ///Future service which is returns DropdownMenuItem list
   Future<List<T>?> Function(String? search) remoteItems;
@@ -55,6 +57,8 @@ class SearchableDropdown<T extends Object> extends StatefulWidget {
   SearchableDropdown({
     Key? key,
     required this.remoteItems,
+    required this.value,
+    required this.itemLabelFormatter,
     this.onChanged,
     this.labelText,
     this.hintText,
@@ -64,8 +68,6 @@ class SearchableDropdown<T extends Object> extends StatefulWidget {
     this.dropDownIconSize = 20,
     this.dropDownIconColor,
     this.leadingIcon,
-    this.itemLabelFormatter,
-    this.value,
     this.isEnabled = true,
     this.border,
     this.borderRadius,
@@ -167,8 +169,7 @@ class _SearchableDropdownState<T extends Object>
           );
         },
         optionsBuilder: optionsBuilder,
-        displayStringForOption:
-            widget.itemLabelFormatter ?? RawAutocomplete.defaultStringForOption,
+        displayStringForOption: widget.itemLabelFormatter,
         onSelected: (value) {
           if (controller.selectedItem.value == value) return;
 
@@ -218,6 +219,8 @@ class _SearchableDropdownState<T extends Object>
 
   Future<List<T>> optionsBuilder(TextEditingValue search) async {
     if (controller.searchText.value == search.text) return [];
+    if (widget.value == null ||
+        widget.itemLabelFormatter(widget.value!) == search.text) return [];
 
     controller.searchText.value = search.text;
     await _searchTimeDeBouncer.run();

@@ -1,6 +1,6 @@
 name: async_searchable_dropdown
 description: Flutter async searchable dropdown widget.
-version: 0.0.3
+version: 0.0.4
 homepage: https://github.com/bilalraad/async_searchable_dropdown
 
 environment:
