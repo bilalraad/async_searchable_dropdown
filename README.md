@@ -8,6 +8,10 @@ This Flutter package helps create a dropdown which it's items are fetched upon s
 - Fetch items on the start, and when changing search text.
 - Search debounce is built in.
 
+## Demo
+
+![Demo](https://github.com/bilalraad/async_searchable_dropdown/tree/main/assets/demo.gif)
+
 ## Getting started
 
 To use this package, add async_searchable_dropdown as a dependency in your [pubspec.yaml] file. And add this import to your file.
@@ -33,7 +37,6 @@ SearchableDropdown<String>(
 )
 ```
 
-- backgroundDecoration: Background decoration of dropdown, i.e. with this you can wrap dropdown with Card
 - backgroundDecoration: Background decoration of dropdown, i.e. with this you can wrap dropdown with Card
 
 ## License

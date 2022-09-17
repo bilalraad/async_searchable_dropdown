@@ -223,7 +223,7 @@ class _SearchableDropdownState<T extends Object>
 
   Future<List<T>> optionsBuilder(TextEditingValue search) async {
     if (controller.searchText.value == search.text) return [];
-    if (widget.value == null ||
+    if (widget.value != null &&
         widget.itemLabelFormatter(widget.value!) == search.text) return [];
 
     controller.searchText.value = search.text;
