@@ -10,7 +10,11 @@ This Flutter package helps create a dropdown which it's items are fetched upon s
 
 ## Demo
 
+<<<<<<< HEAD
 ![Demo](https://github.com/bilalraad/async_searchable_dropdown/blob/main/assets/demo.mp4)
+=======
+![Demo](https://github.com/bilalraad/async_searchable_dropdown/blob/main/assets/demo.gif)
+>>>>>>> fa6ac5d0bf1be67fbe3497b15230606ef61a552c
 
 ## Getting started
 
