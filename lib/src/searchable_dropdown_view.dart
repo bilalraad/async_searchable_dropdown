@@ -192,7 +192,7 @@ class _SearchableDropdownState<T extends Object>
                 children: options
                     .map((e) => ListTile(
                           onTap: () => onSelected(e),
-                          title: Text(e.toString()),
+                          title: Text(widget.itemLabelFormatter(e)),
                         ))
                     .toList(),
               ),
@@ -200,7 +200,6 @@ class _SearchableDropdownState<T extends Object>
           ),
         ),
         optionsBuilder: optionsBuilder,
-        displayStringForOption: widget.itemLabelFormatter,
         onSelected: (value) {
           if (controller.selectedItem.value == value) return;
 
