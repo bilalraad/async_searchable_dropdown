@@ -200,6 +200,7 @@ class _SearchableDropdownState<T extends Object>
           ),
         ),
         optionsBuilder: optionsBuilder,
+        displayStringForOption: widget.itemLabelFormatter,
         onSelected: (value) {
           if (controller.selectedItem.value == value) return;
 
