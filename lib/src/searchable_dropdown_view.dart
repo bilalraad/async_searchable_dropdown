@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:async_searchable_dropdown/src/utils/search_time_denouncer.dart';
 import 'searchable_dropdown_controller.dart';
@@ -100,6 +101,12 @@ class _SearchableDropdownState<T extends Object>
   }
 
   @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
       key: controller.key,
@@ -155,6 +162,7 @@ class _SearchableDropdownState<T extends Object>
             keyboardType: widget.keyboardType,
             onEditingComplete: onFieldSubmitted,
             onTap: () {
+              print('object');
               // To fix Cursor position goes to one before the last
               // when editing a RTL Text
               if (textEditingController.selection ==
@@ -163,6 +171,8 @@ class _SearchableDropdownState<T extends Object>
                 textEditingController.selection = TextSelection.fromPosition(
                     TextPosition(offset: textEditingController.text.length));
               }
+              textEditingController.text =
+                  "${textEditingController.text.trim()} ";
             },
             onSubmitted: (value) => focusNode.unfocus(),
             decoration: InputDecoration(
@@ -249,17 +259,25 @@ class _SearchableDropdownState<T extends Object>
   }
 
   Future<List<T>> optionsBuilder(TextEditingValue search) async {
-    if (controller.searchText.value == search.text) return [];
-    if (widget.value != null &&
-        widget.itemLabelFormatter(widget.value!) == search.text) return [];
+    if (controller.searchText.value.trim() == search.text.trim()) {
+      return controller.oldResults;
+    }
+
+    /// This is used to check if the search text is not an actual
+    /// value that's been selected
+    if (controller.oldResults.isNotEmpty &&
+        controller.oldResults.take(4).firstWhereOrNull(
+                (e) => widget.itemLabelFormatter(e) == search.text) !=
+            null) return [];
 
     controller.searchText.value = search.text;
     await _searchTimeDeBouncer.run();
     controller.isLoading.value = true;
     controller.isError.value = false;
     try {
-      final options = await widget.remoteItems.call(search.text);
+      final options = await widget.remoteItems.call(search.text.trim());
       controller.isLoading.value = false;
+      controller.oldResults = options ?? [];
       return options ?? [];
     } catch (e) {
       controller.isLoading.value = false;

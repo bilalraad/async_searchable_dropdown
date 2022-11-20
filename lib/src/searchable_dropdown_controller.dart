@@ -8,4 +8,14 @@ class SearchableDropdownController<T> {
 
   final ValueNotifier<bool> isLoading = ValueNotifier<bool>(false);
   final ValueNotifier<bool> isError = ValueNotifier<bool>(false);
+
+  List<T> oldResults = [];
+
+  void dispose() {
+    selectedItem.dispose();
+    searchText.dispose();
+    isLoading.dispose();
+    isError.dispose();
+    oldResults.clear();
+  }
 }
