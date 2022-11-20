@@ -55,6 +55,7 @@ class MyApp extends StatelessWidget {
                     selectedValue.value = value;
                     debugPrint('$value');
                   },
+                  borderRadius: BorderRadius.circular(10),
                 );
               },
             ),

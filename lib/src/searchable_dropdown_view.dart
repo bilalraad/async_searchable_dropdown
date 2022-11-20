@@ -22,6 +22,10 @@ class SearchableDropdown<T extends Object> extends StatefulWidget {
   ///Dropdown trailing icon size, default is 20
   final double dropDownIconSize;
 
+  final double? dropDownListHeight;
+
+  final double? dropDownListWidth;
+
   ///Dropdown trailing icon Color
   final Color? dropDownIconColor;
 
@@ -57,7 +61,7 @@ class SearchableDropdown<T extends Object> extends StatefulWidget {
   Future<List<T>?> Function(String? search) remoteItems;
 
   SearchableDropdown({
-    Key? key,
+    super.key,
     required this.remoteItems,
     required this.value,
     required this.itemLabelFormatter,
@@ -68,6 +72,8 @@ class SearchableDropdown<T extends Object> extends StatefulWidget {
     this.margin,
     this.dropDownIcon,
     this.dropDownIconSize = 20,
+    this.dropDownListHeight,
+    this.dropDownListWidth,
     this.dropDownIconColor,
     this.leadingIcon,
     this.isEnabled = true,
@@ -75,7 +81,7 @@ class SearchableDropdown<T extends Object> extends StatefulWidget {
     this.borderRadius,
     this.labelTextStyle,
     this.keyboardType,
-  }) : super(key: key);
+  });
 
   @override
   State<SearchableDropdown<T>> createState() => _SearchableDropdownState<T>();
@@ -172,6 +178,27 @@ class _SearchableDropdownState<T extends Object>
             ),
           );
         },
+        optionsViewBuilder: (context, onSelected, options) => Align(
+          alignment: Alignment.topLeft,
+          child: Material(
+            color: Colors.white,
+            shadowColor: Colors.grey,
+            elevation: 8,
+            borderRadius: widget.borderRadius,
+            child: SizedBox(
+              width: widget.dropDownListWidth ?? 300,
+              height: widget.dropDownListHeight ?? 200,
+              child: ListView(
+                children: options
+                    .map((e) => ListTile(
+                          onTap: () => onSelected(e),
+                          title: Text(e.toString()),
+                        ))
+                    .toList(),
+              ),
+            ),
+          ),
+        ),
         optionsBuilder: optionsBuilder,
         displayStringForOption: widget.itemLabelFormatter,
         onSelected: (value) {
