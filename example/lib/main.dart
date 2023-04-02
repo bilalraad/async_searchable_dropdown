@@ -39,22 +39,21 @@ class MyApp extends StatelessWidget {
               valueListenable: selectedValue,
               builder: (context, value, child) {
                 return SearchableDropdown<String>(
-                  backgroundDecoration: (child) => Card(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0)),
-                    child: child,
-                  ),
                   value: value,
                   itemLabelFormatter: (value) {
                     return value;
                   },
-                  labelText: 'List of items',
                   margin: const EdgeInsets.all(15),
                   remoteItems: getData,
                   onChanged: (value) {
                     selectedValue.value = value;
                     debugPrint('$value');
                   },
+                  inputDecoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'List of items',
+                    prefixIcon: Icon(Icons.search),
+                  ),
                   borderRadius: BorderRadius.circular(10),
                 );
               },

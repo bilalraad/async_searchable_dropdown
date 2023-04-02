@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.6
+
+## Breaking
+
+- Remove labelText, labelTextStyle, hintText, backgroundDecoration, leadingIcon, dropDownIcon, dropDownIconSize, dropDownIconColor in favor of more customizable InputDecoration class.
+
 ## 0.0.5+7
 
 ### features

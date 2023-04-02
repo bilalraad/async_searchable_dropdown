@@ -5,39 +5,18 @@ import 'searchable_dropdown_controller.dart';
 
 // ignore: must_be_immutable
 class SearchableDropdown<T extends Object> extends StatefulWidget {
-  ///label text shown when no value is selected
-  final String? labelText;
-
-  ///label text Style
-  final TextStyle? labelTextStyle;
-
-  ///Hint text shown when the dropdown is empty
-  final String? hintText;
-
-  ///Background decoration of dropdown, i.e. with this you can wrap dropdown with Card
-  final Widget Function(Widget child)? backgroundDecoration;
-
-  ///Dropdown trailing icon
-  final Widget? dropDownIcon;
-
-  ///Dropdown trailing icon size, default is 20
-  final double dropDownIconSize;
-
   final double? dropDownListHeight;
 
   final double? dropDownListWidth;
 
-  ///Dropdown trailing icon Color
-  final Color? dropDownIconColor;
-
-  ///Dropdown trailing icon
-  final Widget? leadingIcon;
-
   ///Dropdowns margin padding with other widgets
   final EdgeInsetsGeometry? margin;
 
-  ///Dropdowns Border
-  final Border? border;
+  final double? cursorHeight;
+
+  final EdgeInsetsGeometry? contentPadding;
+
+  final InputDecoration inputDecoration;
 
   ///Dropdowns Border Radius
   final BorderRadius? borderRadius;
@@ -67,21 +46,15 @@ class SearchableDropdown<T extends Object> extends StatefulWidget {
     required this.value,
     required this.itemLabelFormatter,
     this.onChanged,
-    this.labelText,
-    this.hintText,
-    this.backgroundDecoration,
     this.margin,
-    this.dropDownIcon,
-    this.dropDownIconSize = 20,
     this.dropDownListHeight,
     this.dropDownListWidth,
-    this.dropDownIconColor,
-    this.leadingIcon,
     this.isEnabled = true,
-    this.border,
     this.borderRadius,
-    this.labelTextStyle,
     this.keyboardType,
+    this.cursorHeight,
+    this.contentPadding,
+    this.inputDecoration = const InputDecoration(),
   });
 
   @override
@@ -111,123 +84,82 @@ class _SearchableDropdownState<T extends Object>
     return SizedBox(
       key: controller.key,
       width: MediaQuery.of(context).size.width,
-      child: widget.backgroundDecoration != null
-          ? widget.backgroundDecoration!(
-              buildDropDown(context, controller),
-            )
-          : buildDropDown(context, controller),
-    );
-  }
-
-  Widget buildDropDown(
-    BuildContext context,
-    SearchableDropdownController<T> controller,
-  ) {
-    return Row(
-      children: [
-        Expanded(
-            child: Row(
-          children: [
-            if (widget.leadingIcon != null)
-              Padding(
-                padding: const EdgeInsets.only(right: 3.0),
-                child: widget.leadingIcon!,
-              ),
-            Flexible(child: buildDropDownText()),
-          ],
-        )),
-      ],
+      child: buildDropDownText(),
     );
   }
 
   Widget buildDropDownText() {
-    return Container(
-      margin: widget.margin,
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      decoration: BoxDecoration(
-        border: widget.border,
-        borderRadius: widget.borderRadius,
-      ),
-      child: Autocomplete<T>(
-        fieldViewBuilder: (
-          context,
-          textEditingController,
-          focusNode,
-          onFieldSubmitted,
-        ) {
-          return TextField(
-            controller: textEditingController,
-            focusNode: focusNode,
-            enabled: widget.isEnabled,
-            keyboardType: widget.keyboardType,
-            onEditingComplete: onFieldSubmitted,
-            onTap: () {
-              print('object');
-              // To fix Cursor position goes to one before the last
-              // when editing a RTL Text
-              if (textEditingController.selection ==
-                  TextSelection.fromPosition(TextPosition(
-                      offset: textEditingController.text.length - 1))) {
-                textEditingController.selection = TextSelection.fromPosition(
-                    TextPosition(offset: textEditingController.text.length));
-              }
-              textEditingController.text =
-                  "${textEditingController.text.trim()} ";
-            },
-            onSubmitted: (value) => focusNode.unfocus(),
-            decoration: InputDecoration(
-              hintText: widget.hintText,
-              labelText: widget.labelText,
-              labelStyle: widget.labelTextStyle,
-              border: InputBorder.none,
-              suffixIconConstraints: BoxConstraints(
-                maxWidth: widget.dropDownIconSize,
-                maxHeight: widget.dropDownIconSize,
-              ),
-              suffixIcon: buildDropDownIcon(textEditingController),
-            ),
-          );
-        },
-        optionsViewBuilder: (context, onSelected, options) => Align(
-          alignment: Alignment.topLeft,
-          child: Material(
-            color: Colors.white,
-            shadowColor: Colors.grey,
-            elevation: 8,
-            borderRadius: widget.borderRadius,
-            child: SizedBox(
-              width: widget.dropDownListWidth ?? 300,
-              height: widget.dropDownListHeight ?? 200,
-              child: ListView(
-                children: options
-                    .map((e) => ListTile(
-                          onTap: () => onSelected(e),
-                          title: Text(widget.itemLabelFormatter(e)),
-                        ))
-                    .toList(),
-              ),
+    return Autocomplete<T>(
+      fieldViewBuilder: (
+        context,
+        textEditingController,
+        focusNode,
+        onFieldSubmitted,
+      ) {
+        return TextField(
+          controller: textEditingController,
+          focusNode: focusNode,
+          enabled: widget.isEnabled,
+          keyboardType: widget.keyboardType,
+          onEditingComplete: onFieldSubmitted,
+          cursorHeight: widget.cursorHeight,
+          onTap: () {
+            // To fix Cursor position goes to one before the last
+            // when editing a RTL Text
+            if (textEditingController.selection ==
+                TextSelection.fromPosition(TextPosition(
+                    offset: textEditingController.text.length - 1))) {
+              textEditingController.selection = TextSelection.fromPosition(
+                  TextPosition(offset: textEditingController.text.length));
+            }
+            textEditingController.text =
+                "${textEditingController.text.trim()} ";
+          },
+          onSubmitted: (value) => focusNode.unfocus(),
+          decoration: widget.inputDecoration.copyWith(
+            suffixIcon: buildDropDownIcon(textEditingController),
+          ),
+        );
+      },
+      optionsViewBuilder: (context, onSelected, options) => Align(
+        alignment: AlignmentDirectional.topStart,
+        child: Material(
+          color: Colors.white,
+          shadowColor: Colors.grey,
+          elevation: 8,
+          borderRadius: widget.borderRadius,
+          child: SizedBox(
+            width: widget.dropDownListWidth ?? 300,
+            height: widget.dropDownListHeight ?? 200,
+            child: ListView(
+              children: options
+                  .map((e) => ListTile(
+                        onTap: () => onSelected(e),
+                        title: Text(widget.itemLabelFormatter(e)),
+                      ))
+                  .toList(),
             ),
           ),
         ),
-        optionsBuilder: optionsBuilder,
-        displayStringForOption: widget.itemLabelFormatter,
-        onSelected: (value) {
-          if (controller.selectedItem.value == value) return;
-
-          controller.selectedItem.value = value;
-          widget.onChanged?.call(value);
-        },
       ),
+      optionsBuilder: optionsBuilder,
+      displayStringForOption: widget.itemLabelFormatter,
+      onSelected: (value) {
+        if (controller.selectedItem.value == value) return;
+
+        controller.selectedItem.value = value;
+        widget.onChanged?.call(value);
+      },
     );
   }
 
   Widget buildDropDownIcon(TextEditingController textEditingController) {
     return ValueListenableBuilder<bool>(
       valueListenable: controller.isLoading,
-      child: widget.dropDownIcon ??
+      child: widget.inputDecoration.suffixIcon ??
           Icon(
             Icons.keyboard_arrow_down_rounded,
-            color: widget.dropDownIconColor,
+            color: widget.inputDecoration.suffixIconColor,
           ),
       builder: (context, isLoading, child) {
         return ValueListenableBuilder<bool>(
@@ -236,7 +168,9 @@ class _SearchableDropdownState<T extends Object>
             if (isLoading) {
               return CircularProgressIndicator.adaptive(
                 valueColor: AlwaysStoppedAnimation<Color>(
-                    widget.dropDownIconColor ?? Theme.of(context).primaryColor),
+                  widget.inputDecoration.suffixIconColor ??
+                      Theme.of(context).primaryColor,
+                ),
               );
             } else if (isError) {
               return InkWell(
@@ -246,7 +180,7 @@ class _SearchableDropdownState<T extends Object>
                 },
                 child: Icon(
                   Icons.refresh,
-                  color: widget.dropDownIconColor,
+                  color: widget.inputDecoration.suffixIconColor,
                 ),
               );
             } else {

@@ -24,7 +24,11 @@ import 'package:async_searchable_dropdown/async_searchable_dropdown.dart';
 
 ```dart
 SearchableDropdown<String>(
-    hintText: 'List of items',
+    inputDecoration: const InputDecoration(
+        border: OutlineInputBorder(),
+        labelText: 'List of items',
+        prefixIcon: Icon(Icons.search),
+        ),
     margin: const EdgeInsets.all(15),
     remoteItems: (search){
         /// Your async function call must return list of string [List<String>]
