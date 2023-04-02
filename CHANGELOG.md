@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.0.6+1
+## 0.0.6+2
 
 - Update readme file.
 - Added the ability to change loading indicator size (default is 20).
