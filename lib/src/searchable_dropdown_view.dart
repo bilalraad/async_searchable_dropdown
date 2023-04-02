@@ -9,12 +9,7 @@ class SearchableDropdown<T extends Object> extends StatefulWidget {
 
   final double? dropDownListWidth;
 
-  ///Dropdowns margin padding with other widgets
-  final EdgeInsetsGeometry? margin;
-
   final double? cursorHeight;
-
-  final EdgeInsetsGeometry? contentPadding;
 
   final InputDecoration inputDecoration;
 
@@ -48,7 +43,6 @@ class SearchableDropdown<T extends Object> extends StatefulWidget {
     required this.value,
     required this.itemLabelFormatter,
     this.onChanged,
-    this.margin,
     this.dropDownListHeight,
     this.dropDownListWidth,
     this.isEnabled = true,
@@ -56,7 +50,6 @@ class SearchableDropdown<T extends Object> extends StatefulWidget {
     this.loadingIconSize = 20.0,
     this.keyboardType,
     this.cursorHeight,
-    this.contentPadding,
     this.inputDecoration = const InputDecoration(),
   });
 

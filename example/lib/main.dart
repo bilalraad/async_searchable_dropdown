@@ -43,7 +43,6 @@ class MyApp extends StatelessWidget {
                   itemLabelFormatter: (value) {
                     return value;
                   },
-                  margin: const EdgeInsets.all(15),
                   remoteItems: getData,
                   onChanged: (value) {
                     selectedValue.value = value;

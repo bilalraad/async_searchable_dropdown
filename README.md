@@ -29,7 +29,6 @@ SearchableDropdown<String>(
         labelText: 'List of items',
         prefixIcon: Icon(Icons.search),
         ),
-    margin: const EdgeInsets.all(15),
     remoteItems: (search){
         /// Your async function call must return list of string [List<String>]
     },
