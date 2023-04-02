@@ -41,8 +41,6 @@ SearchableDropdown<String>(
 )
 ```
 
-- backgroundDecoration: Background decoration of dropdown, i.e. with this you can wrap dropdown with Card
-
 ## License
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](/LICENSE)

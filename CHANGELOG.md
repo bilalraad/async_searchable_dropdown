@@ -1,8 +1,13 @@
 # Changelog
 
+## 0.0.6+1
+
+- Update readme file.
+- Added the ability to change loading indicator size (default is 20).
+
 ## 0.0.6
 
-## Breaking
+### Breaking
 
 - Remove labelText, labelTextStyle, hintText, backgroundDecoration, leadingIcon, dropDownIcon, dropDownIconSize, dropDownIconColor in favor of more customizable InputDecoration class.
 
