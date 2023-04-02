@@ -1,6 +1,6 @@
 name: async_searchable_dropdown
 description: This Flutter package helps create a dropdown which it's items are fetched upon search.
-version: 0.0.6
+version: 0.0.6+1
 homepage: https://github.com/bilalraad/async_searchable_dropdown
 
 environment:
