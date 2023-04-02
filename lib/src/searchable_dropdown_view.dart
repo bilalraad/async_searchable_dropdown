@@ -24,6 +24,8 @@ class SearchableDropdown<T extends Object> extends StatefulWidget {
   ///Returns selected Item
   final void Function(T? value)? onChanged;
 
+  final double loadingIconSize;
+
   //Initial value of dropdown
   T? value;
 
@@ -51,6 +53,7 @@ class SearchableDropdown<T extends Object> extends StatefulWidget {
     this.dropDownListWidth,
     this.isEnabled = true,
     this.borderRadius,
+    this.loadingIconSize = 20.0,
     this.keyboardType,
     this.cursorHeight,
     this.contentPadding,
@@ -166,11 +169,19 @@ class _SearchableDropdownState<T extends Object>
           valueListenable: controller.isError,
           builder: (context, isError, _) {
             if (isLoading) {
-              return CircularProgressIndicator.adaptive(
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  widget.inputDecoration.suffixIconColor ??
-                      Theme.of(context).primaryColor,
-                ),
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox.square(
+                    dimension: widget.loadingIconSize,
+                    child: CircularProgressIndicator.adaptive(
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        widget.inputDecoration.suffixIconColor ??
+                            Theme.of(context).primaryColor,
+                      ),
+                    ),
+                  ),
+                ],
               );
             } else if (isError) {
               return InkWell(
