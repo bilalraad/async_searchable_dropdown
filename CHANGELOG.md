@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.6+3
+
+- Fix option view alignment for rtl direction
+
 ## 0.0.6+2
 
 - Update readme file.

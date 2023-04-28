@@ -100,6 +100,7 @@ class _SearchableDropdownState<T extends Object>
           onEditingComplete: onFieldSubmitted,
           cursorHeight: widget.cursorHeight,
           onTap: () {
+            if (textEditingController.text.trim().isEmpty) return;
             // To fix Cursor position goes to one before the last
             // when editing a RTL Text
             if (textEditingController.selection ==
@@ -118,7 +119,9 @@ class _SearchableDropdownState<T extends Object>
         );
       },
       optionsViewBuilder: (context, onSelected, options) => Align(
-        alignment: AlignmentDirectional.topStart,
+        alignment: Directionality.of(context) == TextDirection.ltr
+            ? AlignmentDirectional.topStart
+            : AlignmentDirectional.topEnd,
         child: Material(
           color: Colors.white,
           shadowColor: Colors.grey,
