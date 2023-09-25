@@ -61,7 +61,6 @@ class _SearchableDropdownState<T extends Object>
     extends State<SearchableDropdown<T>> {
   late SearchableDropdownController<T> controller;
   final _searchTimeDeBouncer = TimeDeBouncer(milliseconds: 750);
-
   @override
   void initState() {
     controller = SearchableDropdownController<T>();
@@ -109,8 +108,7 @@ class _SearchableDropdownState<T extends Object>
               textEditingController.selection = TextSelection.fromPosition(
                   TextPosition(offset: textEditingController.text.length));
             }
-            textEditingController.text =
-                "${textEditingController.text.trim()} ";
+            textEditingController.text = textEditingController.text.trim();
           },
           onSubmitted: (value) => focusNode.unfocus(),
           decoration: widget.inputDecoration.copyWith(
