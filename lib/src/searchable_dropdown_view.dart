@@ -131,6 +131,7 @@ class _SearchableDropdownState<T extends Object>
             width: widget.dropDownListWidth ?? 300,
             height: widget.dropDownListHeight ?? 200,
             child: ListView(
+              shrinkWrap: true,
               children: options
                   .map((e) => ListTile(
                         onTap: () => onSelected(e),
