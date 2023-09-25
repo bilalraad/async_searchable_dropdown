@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.7+4
+
+- Improve results list UI
+
 ## 0.0.6+3
 
 - Fix option view alignment for rtl direction
