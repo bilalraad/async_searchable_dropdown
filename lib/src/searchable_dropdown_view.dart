@@ -60,11 +60,16 @@ class SearchableDropdown<T extends Object> extends StatefulWidget {
 class _SearchableDropdownState<T extends Object>
     extends State<SearchableDropdown<T>> {
   late SearchableDropdownController<T> controller;
+  late TextEditingValue initialValue;
   final _searchTimeDeBouncer = TimeDeBouncer(milliseconds: 750);
   @override
   void initState() {
     controller = SearchableDropdownController<T>();
     controller.selectedItem.value = widget.value;
+    initialValue = TextEditingValue(
+      text:
+          widget.value == null ? "" : widget.itemLabelFormatter(widget.value!),
+    );
     super.initState();
   }
 
@@ -85,6 +90,7 @@ class _SearchableDropdownState<T extends Object>
 
   Widget buildDropDownText() {
     return Autocomplete<T>(
+      initialValue: initialValue,
       fieldViewBuilder: (
         context,
         textEditingController,
