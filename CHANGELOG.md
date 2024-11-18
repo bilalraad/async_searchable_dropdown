@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.8+5
+
+- Improve initial value handling.
+
 ## 0.0.7+4
 
 - Improve results list UI
